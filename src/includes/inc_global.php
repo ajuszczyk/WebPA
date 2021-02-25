@@ -29,7 +29,7 @@ date_default_timezone_set('Europe/London');
 ////
 
 define('APP__WWW', '');
-define('DOC__ROOT', ''); //must include the trailing /
+define('DOC__ROOT', '/Library/WebServer/Documents/webpa/src/'); //must include the trailing /
 define('CUSTOM_CSS', '');  // Optional custom CSS file
 define('SESSION_NAME', 'WEBPA');
 ini_set('session.cookie_path', '/');
@@ -38,10 +38,10 @@ ini_set('session.cookie_path', '/');
 define('APP__ACADEMIC_YEAR_START_MONTH', 9);
 
 //Database information
-define('APP__DB_HOST', ''); // If on a non-standard port, use this format:  <server>:<port>
-define('APP__DB_USERNAME', '');
-define('APP__DB_PASSWORD', '');
-define('APP__DB_DATABASE', '');
+define('APP__DB_HOST', 'localhost'); // If on a non-standard port, use this format:  <server>:<port>
+define('APP__DB_USERNAME', 'webpauser');
+define('APP__DB_PASSWORD', 'webpapass');
+define('APP__DB_DATABASE', 'webpa');
 define('APP__DB_TABLE_PREFIX', 'pa2_');
 
 // Contact info
@@ -77,7 +77,7 @@ ini_set('sendmail_from','someone@email.com');
 
 //define the authentication to be used and in the order they are to be applied
 $LOGIN_AUTHENTICATORS[] = 'DB';
-$LOGIN_AUTHENTICATORS[] = 'LDAP';
+//$LOGIN_AUTHENTICATORS[] = 'LDAP';
 
 // LDAP settings
 define('LDAP__HOST', "kdc.lboro.ac.uk");
@@ -95,6 +95,7 @@ define('LDAP__AUTO_CREATE_USER', TRUE);
 
 // define installed modules
 $INSTALLED_MODS = array();
+$INSTALLED_MODS[] = 'lti';
 
 ////
 // System configuration section - do not change unless you know what you're doing!
