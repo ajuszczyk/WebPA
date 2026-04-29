@@ -1,4 +1,5 @@
 <?php
+
 /**
  * User
  *
@@ -42,15 +43,15 @@ class User
     public DAO $DAO;
 
     /**
-    * CONSTRUCTOR for the class function
-    * @param string $username
-    * @param string $passsword
-    */
+     * CONSTRUCTOR for the class function
+     * @param string $username
+     * @param string $passsword
+     */
     public function __construct($username = null, $password = null)
     {
         $this->username = $username;
         $this->source_id = '';
-        $this->password = password_hash($password, PASSWORD_DEFAULT);
+        $this->password = password_needs_rehash($password, PASSWORD_DEFAULT) ? password_hash($password, PASSWORD_DEFAULT) : $password;
         $this->id = null;
         $this->type = null;
         $this->id_number = null;
@@ -69,12 +70,12 @@ class User
     */
 
     /**
-    * Load the object from the given data
-    *
-    * @param array $user_info  assoc-array of User info
-    *
-    * @return boolean did the load succeed
-    */
+     * Load the object from the given data
+     *
+     * @param array $user_info  assoc-array of User info
+     *
+     * @return boolean did the load succeed
+     */
     public function load_from_row($user_info)
     {
         if (is_array($user_info)) {
@@ -100,10 +101,10 @@ class User
     // /->load_from_row()
 
     /**
-    * Is this user admin?
-    *
-    * @return boolean user is admin
-    */
+     * Is this user admin?
+     *
+     * @return boolean user is admin
+     */
     public function is_admin()
     {
         return $this->admin == 1;
@@ -112,10 +113,10 @@ class User
     // /->is_admin()
 
     /**
-    * Is this user staff?
-    *
-    * @return boolean user is staff
-    */
+     * Is this user staff?
+     *
+     * @return boolean user is staff
+     */
     public function is_staff()
     {
         return ($this->type == APP__USER_TYPE_ADMIN) || ($this->type == APP__USER_TYPE_TUTOR);
@@ -175,28 +176,28 @@ class User
     public function save_user()
     {
         $this->DAO
-        ->getConnection()
-        ->createQueryBuilder()
-        ->update(APP__DB_TABLE_PREFIX . 'user')
-        ->set('forename', '?')
-        ->set('lastname', '?')
-        ->set('email', '?')
-        ->set('username', '?')
-        ->set('source_id', '?')
-        ->set('password', '?')
-        ->set('id_number', '?')
-        ->set('department_id', '?')
-        ->where('user_id = ?')
-        ->setParameter(0, $this->forename)
-        ->setParameter(1, $this->lastname)
-        ->setParameter(2, $this->email)
-        ->setParameter(3, $this->username)
-        ->setParameter(4, $this->source_id)
-        ->setParameter(5, $this->password)
-        ->setParameter(6, $this->id_number)
-        ->setParameter(7, $this->department_id)
-        ->setParameter(8, $this->id, ParameterType::INTEGER)
-        ->execute();
+            ->getConnection()
+            ->createQueryBuilder()
+            ->update(APP__DB_TABLE_PREFIX . 'user')
+            ->set('forename', '?')
+            ->set('lastname', '?')
+            ->set('email', '?')
+            ->set('username', '?')
+            ->set('source_id', '?')
+            ->set('password', '?')
+            ->set('id_number', '?')
+            ->set('department_id', '?')
+            ->where('user_id = ?')
+            ->setParameter(0, $this->forename)
+            ->setParameter(1, $this->lastname)
+            ->setParameter(2, $this->email)
+            ->setParameter(3, $this->username)
+            ->setParameter(4, $this->source_id)
+            ->setParameter(5, $this->password)
+            ->setParameter(6, $this->id_number)
+            ->setParameter(7, $this->department_id)
+            ->setParameter(8, $this->id, ParameterType::INTEGER)
+            ->execute();
 
         return true;
     }
@@ -216,30 +217,30 @@ class User
     public function add_user()
     {
         $this->DAO
-           ->getConnection()
-           ->createQueryBuilder()
-           ->insert(APP__DB_TABLE_PREFIX . 'user')
-           ->values([
-               'forename' => '?',
-               'lastname' => '?',
-               'email' => '?',
-               'username' => '?',
-               'source_id' => '?',
-               'password' => '?',
-               'id_number' => '?',
-               'department_id' => '?',
-               'admin' => '?',
-           ])
-           ->setParameter(0, $this->forename)
-           ->setParameter(1, $this->lastname)
-           ->setParameter(2, $this->email)
-           ->setParameter(3, $this->username)
-           ->setParameter(4, $this->source_id)
-           ->setParameter(5, $this->password)
-           ->setParameter(6, $this->id_number)
-           ->setParameter(7, $this->department_id)
-           ->setParameter(8, $this->admin, ParameterType::INTEGER)
-           ->execute();
+            ->getConnection()
+            ->createQueryBuilder()
+            ->insert(APP__DB_TABLE_PREFIX . 'user')
+            ->values([
+                'forename' => '?',
+                'lastname' => '?',
+                'email' => '?',
+                'username' => '?',
+                'source_id' => '?',
+                'password' => '?',
+                'id_number' => '?',
+                'department_id' => '?',
+                'admin' => '?',
+            ])
+            ->setParameter(0, $this->forename)
+            ->setParameter(1, $this->lastname)
+            ->setParameter(2, $this->email)
+            ->setParameter(3, $this->username)
+            ->setParameter(4, $this->source_id)
+            ->setParameter(5, $this->password)
+            ->setParameter(6, $this->id_number)
+            ->setParameter(7, $this->department_id)
+            ->setParameter(8, $this->admin, ParameterType::INTEGER)
+            ->execute();
 
         return $this->DAO->getConnection()->lastInsertId('user_id');
     }
