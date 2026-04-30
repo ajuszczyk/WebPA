@@ -5,3 +5,10 @@ vendor/
 .env
 /src/mod/**
 node_modules/
+src/js/*.svg
+src/js/feather.js
+src/js/*.min.js.map
+src/js/icons/*.svg
+src/js/*.js.map
+src/js/*.min.js
+src/js/icons.json
